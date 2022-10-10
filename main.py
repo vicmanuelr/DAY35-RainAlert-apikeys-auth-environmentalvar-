@@ -14,19 +14,9 @@ PARAMETERS = {
 
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure
-account_sid = os.environ['TWILIO_ACCOUNT_SID']
-auth_token = os.environ['TWILIO_AUTH_TOKEN']
+account_sid = "ACdd03716bbafe9f15abfb14146b7a4219"
+auth_token = "10227c20f68a8fb7cf5704153402c520"
 client = Client(account_sid, auth_token)
-
-message = client.messages \
-                .create(
-                     body="Join Earth's mightiest heroes. Like Kevin Bacon.",
-                     from_='+15017122661',
-                     to='+15558675310'
-                 )
-
-print(message.sid)
-
 
 
 def get_data():
@@ -46,5 +36,14 @@ def rain_check(list_data_elements):
     return rain
 
 
+def send_sms(client_object):
+    message = client_object.messages.create(
+        body="Bring your umbrella",
+        from_='whatsapp:+14155238886',
+        to='whatsapp:+50230324739'
+    )
+    print(message)
+
+
 if rain_check(get_data()):
-    print("Bring an umbrella")
+    send_sms(client)
