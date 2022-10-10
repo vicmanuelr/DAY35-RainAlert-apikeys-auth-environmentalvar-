@@ -11,7 +11,23 @@ PARAMETERS = {
     "appid": API_KEY,
 }
 
-response = requests.get(OWM_ENDPOINT, params=PARAMETERS)
-response.raise_for_status()
-data = response.json()
-print(data)
+
+def get_data():
+    """Will use parameters and endpoint to check Openweathermap API return list"""
+    response = requests.get(OWM_ENDPOINT, params=PARAMETERS)
+    response.raise_for_status()
+    raw_data = response.json()
+    return raw_data["list"][0:4]
+
+
+def rain_check(list_data_elements):
+    """will use list data from get_data and return true/false if rain is detected"""
+    rain = False
+    weather_list = ["rain" for item in list_data_elements if item["weather"][0]["id"] < 700]
+    if "rain" in weather_list:
+        rain = True
+    return rain
+
+
+if rain_check(get_data()):
+    print("Bring an umbrella")
